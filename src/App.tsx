@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Search from "./components/search";
 import CurrentWeather from "./components/current-weather/current-weather";
 import Forecast from "./components/forecast/forecast";
@@ -57,12 +57,8 @@ const App: React.FC = () => {
   );
   const [forecast, setForecast] = useState<ForecastResponse | null>(null);
 
-  const handleOnSearchChange = (searchData: {
-    label: string;
-    value: string;
-  }) => {
-    const [lat, lon] = searchData.value.split(" ");
-
+  // Fetch weather data based on coordinates (latitude, longitude)
+  const fetchWeatherByCoords = (lat: number, lon: number, label: string) => {
     const currentWeatherFetch = fetch(
       `${WEATHER_API_URL}/weather?lat=${lat}&lon=${lon}&appid=${WEATHER_API_KEY}&units=metric`
     );
@@ -75,10 +71,29 @@ const App: React.FC = () => {
         const weatherResponse = await response[0].json();
         const forecastResponse = await response[1].json();
 
-        setCurrentWeather({ city: searchData.label, ...weatherResponse });
-        setForecast({ city: searchData.label, ...forecastResponse });
+        setCurrentWeather({ city: label, ...weatherResponse });
+        setForecast({ city: label, ...forecastResponse });
       })
       .catch(console.log);
+  };
+
+  // Handle location-based weather fetching
+  useEffect(() => {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+        fetchWeatherByCoords(latitude, longitude, "Your Location");
+      },
+      (error) => {
+        console.error("Geolocation error:", error);
+      }
+    );
+  }, []);
+
+  // Handle manual search by user
+  const handleOnSearchChange = (searchData: { label: string; value: string }) => {
+    const [lat, lon] = searchData.value.split(" ");
+    fetchWeatherByCoords(parseFloat(lat), parseFloat(lon), searchData.label);
   };
 
   return (
