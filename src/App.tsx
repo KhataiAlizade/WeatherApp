@@ -57,7 +57,6 @@ const App: React.FC = () => {
   );
   const [forecast, setForecast] = useState<ForecastResponse | null>(null);
 
-  // Fetch weather data based on coordinates (latitude, longitude)
   const fetchWeatherByCoords = (lat: number, lon: number, label: string) => {
     const currentWeatherFetch = fetch(
       `${WEATHER_API_URL}/weather?lat=${lat}&lon=${lon}&appid=${WEATHER_API_KEY}&units=metric`
@@ -77,7 +76,6 @@ const App: React.FC = () => {
       .catch(console.log);
   };
 
-  // Handle location-based weather fetching
   useEffect(() => {
     navigator.geolocation.getCurrentPosition(
       (position) => {
@@ -90,7 +88,6 @@ const App: React.FC = () => {
     );
   }, []);
 
-  // Handle manual search by user
   const handleOnSearchChange = (searchData: { label: string; value: string }) => {
     const [lat, lon] = searchData.value.split(" ");
     fetchWeatherByCoords(parseFloat(lat), parseFloat(lon), searchData.label);
