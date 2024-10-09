@@ -24,7 +24,6 @@ interface CurrentWeatherProps {
 
 
 const CurrentWeather: React.FC<CurrentWeatherProps> = ({ data }) => {
-  const iconCode = data.weather[0].icon; 
   return (
     <div className="weather">
       <div className="top">
