@@ -24,8 +24,7 @@ interface CurrentWeatherProps {
 
 
 const CurrentWeather: React.FC<CurrentWeatherProps> = ({ data }) => {
-  const iconCode = data.weather[0].icon; // e.g., '01d'
-const iconUrl = `http://openweathermap.org/img/wn/${iconCode}@2x.png`;
+  const iconCode = data.weather[0].icon; 
   return (
     <div className="weather">
       <div className="top">
@@ -36,7 +35,7 @@ const iconUrl = `http://openweathermap.org/img/wn/${iconCode}@2x.png`;
         <img
           alt="weather"
           className="weather-icon"
-          src={iconUrl}
+          src={`icons/${data.weather[0].icon}.png`}
         />
       </div>
       <div className="bottom">

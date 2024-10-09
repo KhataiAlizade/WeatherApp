@@ -45,7 +45,6 @@ interface ForecastProps {
   data: ForecastData | null;
 }
 
-// Weekdays array
 const WEEK_DAYS = [
   "Monday",
   "Tuesday",
@@ -76,7 +75,7 @@ const Forecast: React.FC<ForecastProps> = ({ data }) => {
           <AccordionSummary expandIcon={<ExpandMoreIcon />}>
             <div className="daily-item">
               <img
-                src={`http://openweathermap.org/img/wn/${item.weather[0].icon}@2x.png`}
+               src={`icons/${item.weather[0].icon}.png`}
                 className="icon-small"
                 alt="weather"
               /> 
